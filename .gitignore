@@ -1,0 +1,43 @@
+# Node.js
+node_modules/
+dist/
+npm-debug.log
+coverage/
+
+# Environment Variables
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+
+# IDE and Editors
+.vscode/
+.idea/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python / PyTest cache (from previous contents)
+.pytest_cache/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform overrides and configurations
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+locals.tf
