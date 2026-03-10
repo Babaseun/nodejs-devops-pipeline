@@ -50,8 +50,8 @@ jobs:
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
-            DOCKERHUB_USERNAME, dockerhub/username
-            DOCKERHUB_TOKEN, dockerhub/token
+            DOCKERHUB_USERNAME, dockerhub, username
+            DOCKERHUB_TOKEN, dockerhub, token
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
