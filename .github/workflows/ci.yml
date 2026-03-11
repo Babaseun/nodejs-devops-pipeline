@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Nodejs-Devops-Pipeline CI/CD Pipeline
 
 on:
   push:
@@ -37,9 +37,6 @@ jobs:
       id-token: write
       contents: read
 
-    env:
-      ACTIONS_STEP_DEBUG: true
-
     steps:
       - uses: actions/checkout@v4
 
@@ -49,29 +46,29 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Fetch DockerHub secrets from AWS Secrets Manager
+      - name: Fetch DockerHub secret from AWS Secrets Manager
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
-            DOCKERHUB_USERNAME, dockerhub, username
-            DOCKERHUB_PASSWORD, dockerhub, password
+            DOCKERHUB, dockerhub
+          parse-json-secrets: true
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ env.DOCKERHUB_USERNAME }}
-          password: ${{ env.DOCKERHUB_PASSWORD }}
+          username: ${{ env.DOCKERHUB_username }}
+          password: ${{ env.DOCKERHUB_password }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKERHUB_USERNAME }}/nodejs-devops-pipeline
+          images: ${{ env.DOCKERHUB_username }}/nodejs-devops-pipeline
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }},${{ env.DOCKERHUB_USERNAME }}/nodejs-devops-pipeline:latest
+          tags: ${{ steps.meta.outputs.tags }},${{ env.DOCKERHUB_username }}/nodejs-devops-pipeline:latest
           labels: ${{ steps.meta.outputs.labels }}
